@@ -3,7 +3,7 @@ require "sinatra/activerecord"
 
 Dir["./models/*.rb"].each { |file| require file } 
 
-set :environment, :development
+RACK_ENV ||= ENV["RACK_ENV"] || "development"
 
 class BlogApp < Sinatra::Base
   register Sinatra::ActiveRecordExtension
@@ -11,5 +11,8 @@ class BlogApp < Sinatra::Base
   get '/' do
     @posts = Post.all
     haml :index
+  end
+  get "/new" do
+      "hello"
   end
 end

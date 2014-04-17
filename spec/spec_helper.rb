@@ -1,26 +1,21 @@
-ENV['RACK_ENV'] = "test"
+RACK_ENV = "test"
+require File.join(File.dirname(__FILE__), "..", "app.rb")
+require "rack/test"
+require "rspec"
 
-require "sinatra/activerecord"
-require 'rack/test'
-require 'capybara'
-require 'capybara/dsl'
+set :environment, :test
+set :run, false
+set :raise_errors, true
+set :logging, false
 
-Dir["./models/*.rb"].each { |file| require file } 
-require File.expand_path '../../app.rb', __FILE__
-ActiveRecord::Base.logger.level = 1
-
-module RSpecMixin
-    include Rack::Test::Methods
-    include Capybara::DSL
-    def app()
-        Sinatra::Application 
-    end
+def app()
+    BlogApp
 end
 
-RSpec.configure do |config|
-    config.treat_symbols_as_metadata_keys_with_true_values = true
-    config.run_all_when_everything_filtered = true
-    config.filter_run :focus
-    config.order = 'random'
-    config.include RSpecMixin
+RSpec.configure do |conf|
+    conf.include Rack::Test::Methods
+    conf.treat_symbols_as_metadata_keys_with_true_values = true
+    conf.run_all_when_everything_filtered = true
+    conf.filter_run :focus
+    conf.order = 'random'
 end

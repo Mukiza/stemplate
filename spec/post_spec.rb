@@ -13,4 +13,9 @@ describe "Post" do
         expect(@post).to respond_to(:title)
         expect(@post).to respond_to(:content)
     end
+
+    it "gets a list of posts" do
+        get "/new"
+        expect(last_response).to be_ok 
+    end
 end
