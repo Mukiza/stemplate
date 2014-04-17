@@ -14,8 +14,12 @@ describe "Post" do
         expect(@post).to respond_to(:content)
     end
 
-    it "gets a list of posts" do
-        get "/new"
+end
+
+describe "PostAction" do
+    it "gets list all posts" do
+        get "/"
         expect(last_response).to be_ok 
+        expect(last_response.content_type).to eq("text/html;charset=utf-8")
     end
 end
